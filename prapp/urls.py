@@ -1,6 +1,7 @@
 from django.conf.urls import url, include
 from prapp import views
 from rest_framework.routers import DefaultRouter
+import rest_framework.authtoken.views
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
@@ -12,4 +13,9 @@ router.register(r'users', views.UserViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+]
+
+
+urlpatterns += [
+    url(r'^api-token-auth/', rest_framework.authtoken.views.obtain_auth_token)
 ]

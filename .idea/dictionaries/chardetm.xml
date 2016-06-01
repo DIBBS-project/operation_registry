@@ -1,11 +1,13 @@
 <component name="ProjectDictionaryState">
   <dictionary name="chardetm">
     <words>
+      <w>authtoken</w>
       <w>backends</w>
       <w>clickjacking</w>
       <w>csrf</w>
       <w>howto</w>
       <w>prapp</w>
+      <w>processdef</w>
       <w>sqlite</w>
       <w>startproject</w>
       <w>viewset</w>
