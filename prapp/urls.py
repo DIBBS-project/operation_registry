@@ -16,6 +16,7 @@ urlpatterns = [
 ]
 
 
+# Allows to get a token by sending credentials
 urlpatterns += [
     url(r'^api-token-auth/', rest_framework.authtoken.views.obtain_auth_token)
 ]

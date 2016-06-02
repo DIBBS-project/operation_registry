@@ -1,0 +1,305 @@
+swagger: '2.0'
+info:
+  title: Process Registry API
+  description: Register processes with the Process Registry API.
+  version: "0.1"
+# the domain of the service
+host: localhost:8000
+# array of all schemes that your API supports
+schemes:
+# TODO: Change to HTTPS when not on localhost!
+  - http
+# will be prefixed to all paths
+basePath: /prapp
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: Authorization
+    in: header
+  basic:
+    type: basic
+paths:
+  /processdef:
+    get:
+      summary: Get the list of all the process definitions registered.
+      description: |
+        Get the list of all the process definitions registered. No authentification is required.
+      tags:
+        - Process definitions
+      responses:
+        200:
+          description: An array of process definitions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProcessDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Add a new process definition.
+      description: |
+        Add a new process definition. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+      
+      parameters:
+        - name: name
+          in: query
+          description: Name given to the process.
+          required: true
+          type: string
+        - name: definition
+          in: query
+          description: JSON-formatted string containing all the information required to start the process
+          required: true
+          type: string
+      tags:
+        - Process definitions
+      responses:
+        200:
+          description: The newly created process definition
+          schema:
+            $ref: '#/definitions/ProcessDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /processdef/{id}:
+    get:
+      summary: Get a single process definition.
+      description: |
+        Get a single process definition. Authentification is required.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process description
+          required: true
+          type: integer
+          minimum: 0
+      tags:
+        - Process definitions
+      responses:
+        200:
+          description: The process definitions matching the given ID
+          schema:
+            $ref: '#/definitions/ProcessDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Process definitions
+      description: |
+        Add a new process definition. Authentification is required either via simple HTTP authentification or via token authentification given in the header of the request.
+      security:
+        - basic: []
+        - api_key: []
+      
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process description.
+          required: true
+          type: integer
+          minimum: 0
+        - name: name
+          in: query
+          description: Name given to the process.
+          required: true
+          type: string
+        - name: definition
+          in: query
+          description: JSON-formatted string containing all the information required to start the process.
+          required: true
+          type: string
+      tags:
+        - Process definitions
+      responses:
+        200:
+          description: The updated process definition
+          schema:
+            $ref: '#/definitions/ProcessDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Process definitions
+      description: |
+        Add a new process definition. Authentification is required either via simple HTTP authentification or via token authentification given in the header of the request.
+      security:
+        - basic: []
+        - api_key: []
+      
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process description.
+          required: true
+          type: integer
+          minimum: 0
+        - name: name
+          in: query
+          description: Name given to the process.
+          required: false
+          type: string
+        - name: definition
+          in: query
+          description: JSON-formatted string containing all the information required to start the process.
+          required: false
+          type: string
+      tags:
+        - Process definitions
+      responses:
+        200:
+          description: The updated process definition
+          schema:
+            $ref: '#/definitions/ProcessDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Process definitions
+      description: |
+        Deletes a process definition.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process description.
+          required: true
+          type: integer
+          minimum: 0
+      security:
+        - basic: []
+        - api_key: []
+      tags:
+        - Process definitions
+      responses:
+        200:
+          description: The process definitions matching the given ID
+          schema:
+            $ref: '#/definitions/ProcessDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /users:
+    get:
+      summary: Users
+      description: |
+        Get the list of all the users.
+      tags:
+        - Users
+      responses:
+        200:
+          description: An array of users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /users/{id}:
+    get:
+      summary: Users
+      description: |
+        Get the details of a user.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the user.
+          required: true
+          type: integer
+          minimum: 0
+      tags:
+        - Users
+      responses:
+        200:
+          description: The user matching the given ID
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /api-token-auth:
+    post:
+      summary: Get the authentification token for a user.
+      description: |
+        Get the authentification token for a user by providing his username and password. No authentification is required; however the credentials of the user are part of the request.
+      parameters:
+        - name: username
+          in: query
+          description: Username of the user
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: Password of the user
+          required: true
+          type: string
+      tags:
+        - Users
+      responses:
+        200:
+          description: The authentification token of the user
+          schema:
+            $ref: '#/definitions/TokenResp'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  ProcessDef:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific process
+      name:
+        type: string
+        description: Name given to the process
+      user:
+        type: integer
+        description: Unique ID of the user who created the process
+      definition:
+        type: string
+        description: JSON-formatted string containing all the information required to start the process.
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific user
+      username:
+        type: string
+        description: Name given to the user.
+      process_definitions:
+        type: array
+        description: Array of IDs of all the process descriptions created by the user
+        items:
+          type: integer
+      definition:
+        type: string
+        description: JSON-formatted string containing all the information required to start the process
+  Error:
+    type: object
+    properties:
+      detail:
+        type: string
+  TokenResp:
+    type: object
+    properties:
+      token:
+        type: string
+  

@@ -8,4 +8,5 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^prapp/', include('prapp.urls')),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
 ]
