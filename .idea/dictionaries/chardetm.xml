@@ -12,6 +12,7 @@
       <w>startproject</w>
       <w>viewset</w>
       <w>wsgi</w>
+      <w>yaml</w>
     </words>
   </dictionary>
 </component>
