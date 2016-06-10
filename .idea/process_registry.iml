@@ -7,6 +7,7 @@
         <option name="settingsModule" value="process_registry/settings.py" />
         <option name="manageScript" value="manage.py" />
         <option name="environment" value="&lt;map/&gt;" />
+        <option name="commandsToSkip" value="" />
       </configuration>
     </facet>
   </component>
@@ -15,6 +16,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="processregistry" />
+    <orderEntry type="module" module-name="process_dispatcher" />
+    <orderEntry type="module" module-name="ChameleonClusters" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
