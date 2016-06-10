@@ -4,7 +4,7 @@ info:
   description: Register processes with the Process Registry API.
   version: "0.1"
 # the domain of the service
-host: localhost:8000
+host: 127.0.0.1:8000
 # array of all schemes that your API supports
 schemes:
 # TODO: Change to HTTPS when not on localhost!
@@ -271,12 +271,21 @@ definitions:
       name:
         type: string
         description: Name given to the process
-      user:
+      author:
         type: integer
         description: Unique ID of the user who created the process
-      definition:
+      appliance_id:
+        type: integer
+        description: Unique ID of the appliance on which the process must be run
+      archive_url:
         type: string
-        description: JSON-formatted string containing all the information required to start the process.
+        description: URL of the archive to download and extract on the worker before starting the job
+      date:
+        type: dateTime
+        description: Date and time of creation of the process
+      adapters:
+        type: string
+        description: JSON-formatted string containing all the information required to start the process
   User:
     type: object
     properties:
@@ -320,12 +329,20 @@ definitions:
     type: object
     required:
       - name
-      - definition
+      - appliance_id
+      - archive_url
+      - adapters
     properties:
       name:
         description: Name given to the process
         type: string
-      definition:
+      appliance_id:
+        type: integer
+        description: Unique ID of the appliance on which the process must be run
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      adapters:
         description: JSON-formatted string containing all the information required to start the process
         type: string
   ProcessDefPatch:
@@ -334,6 +351,12 @@ definitions:
       name:
         description: Name given to the process
         type: string
-      definition:
+      appliance_id:
+        type: integer
+        description: Unique ID of the appliance on which the process must be run
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      adapters:
         description: JSON-formatted string containing all the information required to start the process
         type: string

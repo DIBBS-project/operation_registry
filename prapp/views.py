@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from prapp.permissions import IsOwnerOrReadOnly
 
 # Create your views here.
@@ -17,7 +16,7 @@ from rest_framework.reverse import reverse
 def api_root(request, format=None):
     return Response({
         'users': reverse('user-list', request=request, format=format),
-        'snippets': reverse('snippet-list', request=request, format=format)
+        'processdefs': reverse('processdef-list', request=request, format=format)
     })
 
 
@@ -40,12 +39,12 @@ class ProcessDefViewSet(viewsets.ModelViewSet):
                           IsOwnerOrReadOnly,)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(author=self.request.user)
 
     # Override to set the user of the request using the credentials provided to perform the request.
     def create(self, request, *args, **kwargs):
         data2 = request.data
-        data2[u'user'] = request.user.id
+        data2[u'author'] = request.user.id
         serializer = self.get_serializer(data=data2)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

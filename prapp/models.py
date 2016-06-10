@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from jsonfield import JSONField
 
 
 from django.conf import settings
@@ -12,8 +13,13 @@ from rest_framework.authtoken.models import Token
 
 class ProcessDefinition(models.Model):
     name = models.CharField(max_length=256)
-    user = models.ForeignKey('auth.User', related_name='process_definitions')
-    definition = models.TextField()
+    author = models.ForeignKey('auth.User', related_name='process_definitions')
+    appliance_id = models.IntegerField()
+    archive_url = models.URLField()
+    date = models.DateTimeField(auto_now_add=True)
+    adapters = JSONField()
+
+
 
     @property
     def __str__(self):
@@ -24,4 +30,5 @@ class ProcessDefinition(models.Model):
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
-        Token.objects.create(user=instance)
+        Token.objects.create(author=instance)
+        # user?
