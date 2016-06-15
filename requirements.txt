@@ -1,0 +1,2 @@
+django-jsonfield
+rest_framework_swagger
