@@ -43,7 +43,10 @@ class ProcessDefViewSet(viewsets.ModelViewSet):
 
     # Override to set the user of the request using the credentials provided to perform the request.
     def create(self, request, *args, **kwargs):
-        data2 = request.data
+        # data2 = request.data
+        data2 = {}
+        for key in request.data:
+            data2[key] = request.data[key]
         data2[u'author'] = request.user.id
         serializer = self.get_serializer(data=data2)
         serializer.is_valid(raise_exception=True)

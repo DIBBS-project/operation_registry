@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'prapp',
+    'demo',
 )
 
 MIDDLEWARE_CLASSES = (

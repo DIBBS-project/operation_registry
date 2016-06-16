@@ -8,5 +8,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^prapp/', include('prapp.urls')),
+    url(r'^demo/', include('demo.urls')),
     url(r'^$', include('prapp.urls')),
 ]
