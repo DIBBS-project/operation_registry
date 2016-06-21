@@ -267,7 +267,7 @@ definitions:
     properties:
       id:
         type: integer
-        description: Unique identifier representing a specific process
+        description: Unique ID of the process
       name:
         type: string
         description: Name given to the process
@@ -279,13 +279,48 @@ definitions:
         description: Unique ID of the appliance on which the process must be run
       archive_url:
         type: string
-        description: URL of the archive to download and extract on the worker before starting the job
+        description: URL of the archive to be downloaded and extracted on the worker of the cluster before starting the job
       date:
         type: dateTime
         description: Date and time of creation of the process
       adapters:
         type: string
         description: JSON-formatted string containing all the information required to start the process
+  ProcessDefPost:
+    type: object
+    required:
+      - name
+      - appliance_id
+      - archive_url
+      - adapters
+    properties:
+      name:
+        description: Name given to the process
+        type: string
+      appliance_id:
+        type: integer
+        description: Unique ID of the appliance on which the process must be run
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      adapters:
+        description: JSON-formatted string containing all the information required to start the process
+        type: string
+  ProcessDefPatch:
+    type: object
+    properties:
+      name:
+        description: Name given to the process
+        type: string
+      appliance_id:
+        type: integer
+        description: Unique ID of the appliance on which the process must be run
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      adapters:
+        description: JSON-formatted string containing all the information required to start the process
+        type: string
   User:
     type: object
     properties:
@@ -324,39 +359,4 @@ definitions:
         type: string
       password:
         description: Password of the user
-        type: string
-  ProcessDefPost:
-    type: object
-    required:
-      - name
-      - appliance_id
-      - archive_url
-      - adapters
-    properties:
-      name:
-        description: Name given to the process
-        type: string
-      appliance_id:
-        type: integer
-        description: Unique ID of the appliance on which the process must be run
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      adapters:
-        description: JSON-formatted string containing all the information required to start the process
-        type: string
-  ProcessDefPatch:
-    type: object
-    properties:
-      name:
-        description: Name given to the process
-        type: string
-      appliance_id:
-        type: integer
-        description: Unique ID of the appliance on which the process must be run
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      adapters:
-        description: JSON-formatted string containing all the information required to start the process
         type: string

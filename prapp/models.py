@@ -19,8 +19,6 @@ class ProcessDefinition(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     adapters = JSONField()
 
-
-
     @property
     def __str__(self):
         return self.name
@@ -31,4 +29,3 @@ class ProcessDefinition(models.Model):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(author=instance)
-        # user?
