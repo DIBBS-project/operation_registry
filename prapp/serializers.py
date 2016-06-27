@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class ProcessDefinitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessDefinition
-        fields = ('id', 'name', 'author', 'appliance_id', 'archive_url', 'date', 'adapters')
+        fields = ('id', 'name', 'author', 'appliance', 'archive_url', 'creation_date', 'adapters')
 
 
 class UserSerializer(serializers.ModelSerializer):

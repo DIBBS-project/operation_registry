@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: Process Registry API
   description: Register processes with the Process Registry API.
-  version: "0.1"
+  version: "0.1.2"
 # the domain of the service
 host: 127.0.0.1:8000
 # array of all schemes that your API supports
@@ -274,14 +274,15 @@ definitions:
       author:
         type: integer
         description: Unique ID of the user who created the process
-      appliance_id:
-        type: integer
-        description: Unique ID of the appliance on which the process must be run
+      appliance:
+        type: string
+        description: Name of the appliance on which the process must be run
       archive_url:
         type: string
         description: URL of the archive to be downloaded and extracted on the worker of the cluster before starting the job
-      date:
-        type: dateTime
+      creation_date:
+        type: string
+        format: date-time
         description: Date and time of creation of the process
       adapters:
         type: string
@@ -290,16 +291,16 @@ definitions:
     type: object
     required:
       - name
-      - appliance_id
+      - appliance
       - archive_url
       - adapters
     properties:
       name:
         description: Name given to the process
         type: string
-      appliance_id:
-        type: integer
-        description: Unique ID of the appliance on which the process must be run
+      appliance:
+        type: string
+        description: Name of the appliance on which the process must be run
       archive_url:
         type: string
         description: URL of the archive to download and extract on the worker before starting the job
@@ -312,9 +313,9 @@ definitions:
       name:
         description: Name given to the process
         type: string
-      appliance_id:
-        type: integer
-        description: Unique ID of the appliance on which the process must be run
+      appliance:
+        type: string
+        description: Name of the appliance on which the process must be run
       archive_url:
         type: string
         description: URL of the archive to download and extract on the worker before starting the job

@@ -14,9 +14,9 @@ from rest_framework.authtoken.models import Token
 class ProcessDefinition(models.Model):
     name = models.CharField(max_length=256)
     author = models.ForeignKey('auth.User', related_name='process_definitions')
-    appliance_id = models.IntegerField()
+    appliance = models.CharField(max_length=256)
     archive_url = models.URLField()
-    date = models.DateTimeField(auto_now_add=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
     adapters = JSONField()
 
     @property
