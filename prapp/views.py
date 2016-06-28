@@ -41,9 +41,14 @@ class ProcessDefViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-    # Override to set the user of the request using the credentials provided to perform the request.
+    # Override to set the user using the credentials provided to perform the request + check the appliance.
     def create(self, request, *args, **kwargs):
-        # data2 = request.data
+        from ar_client.apis.appliances_api import AppliancesApi
+        try:
+            AppliancesApi().appliances_name_get(request.data[u'appliance'])
+        except:
+            return Response('{"error": "Cannot retrieve appliance %s"}' % request.data[u'appliance'],
+                            status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
         data2 = {}
         for key in request.data:
             data2[key] = request.data[key]

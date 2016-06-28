@@ -35,8 +35,14 @@
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="form-group">
-            <label for="appliance_id">Appliance:</label>
-            <input type="text" class="form-control" id="appliance" name="appliance" required>
+            <label for="appliance">Appliance:</label>
+            <select class="form-control" name="appliance" id="appliance" required>
+                {% for appliance in appliances %}
+                {% if appliance.name != 'common' %}
+                    <option>{{ appliance.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="adapters">Adapters (JSON):</label>
