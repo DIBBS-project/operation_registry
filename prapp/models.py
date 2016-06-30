@@ -15,9 +15,15 @@ class ProcessDefinition(models.Model):
     name = models.CharField(max_length=256)
     author = models.ForeignKey('auth.User', related_name='process_definitions')
     appliance = models.CharField(max_length=256)
-    archive_url = models.URLField()
+    archive_url = models.URLField(blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-    adapters = JSONField()
+    executable = models.CharField(max_length=2048)
+    cwd = models.CharField(max_length=2048, blank=True)
+    environment = JSONField(blank=True)
+    argv = JSONField(blank=True)
+    output_type = models.CharField(max_length=256)
+    output_parameters = JSONField(blank=True)
+
 
     @property
     def __str__(self):

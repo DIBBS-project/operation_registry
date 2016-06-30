@@ -53,19 +53,19 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>ApplianceID</th>
-            <th>Adapters</th>
+            <th>Appliance</th>
             <th>Archive</th>
+            <th>Executable</th>
         </tr>
         </thead>
         <tbody>
-        {% for process in processes %}
+        {% for process in processdefs %}
             <tr>
                 <td>Process {{ process.id }}</td>
                 <td>{{ process.name }}</td>
-                <td>{{ process.appliance_id }}</td>
-                <td><code class="code">{{ process.adapters}}</code></td>
-                <td>{{ process.archive_url }}</td>
+                <td>{{ process.appliance }}</td>
+                <td><code class="code">{{ process.archive_url }}</code></td>
+                <td>{{ process.executable }}</td>
             </tr>
         {% endfor %}
         </tbody>
