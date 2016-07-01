@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: Process Registry API
   description: Register processes with the Process Registry API.
-  version: "0.1.2"
+  version: "0.1.5"
 # the domain of the service
 host: 127.0.0.1:8000
 # array of all schemes that your API supports
@@ -10,7 +10,7 @@ schemes:
 # TODO: Change to HTTPS when not on localhost!
   - http
 # will be prefixed to all paths
-basePath: /prapp
+# basePath: /prapp
 consumes:
   - application/json
 produces:
@@ -23,7 +23,7 @@ securityDefinitions:
   basic:
     type: basic
 paths:
-  /processdef/:
+  /processdefs/:
     get:
       summary: Get the list of all the process definitions registered.
       description: |
@@ -67,7 +67,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /processdef/{id}/:
+  /processdefs/{id}/:
     get:
       summary: Get a single process definition.
       description: |
@@ -284,16 +284,31 @@ definitions:
         type: string
         format: date-time
         description: Date and time of creation of the process
-      adapters:
+      executable:
         type: string
-        description: JSON-formatted string containing all the information required to start the process
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+      argv:
+        type: string
+        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
+      output_type:
+        type: string
+        description: type of output (e.g. file, stream)
+      output_parameters:
+        type: string
+        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
   ProcessDefPost:
     type: object
     required:
       - name
       - appliance
-      - archive_url
-      - adapters
+      - executable
+      - output_type
     properties:
       name:
         description: Name given to the process
@@ -304,9 +319,24 @@ definitions:
       archive_url:
         type: string
         description: URL of the archive to download and extract on the worker before starting the job
-      adapters:
-        description: JSON-formatted string containing all the information required to start the process
+      executable:
         type: string
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+      argv:
+        type: string
+        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
+      output_type:
+        type: string
+        description: type of output (e.g. file, stream)
+      output_parameters:
+        type: string
+        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
   ProcessDefPatch:
     type: object
     properties:
@@ -319,9 +349,24 @@ definitions:
       archive_url:
         type: string
         description: URL of the archive to download and extract on the worker before starting the job
-      adapters:
-        description: JSON-formatted string containing all the information required to start the process
+      executable:
         type: string
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+      argv:
+        type: string
+        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
+      output_type:
+        type: string
+        description: type of output (e.g. file, stream)
+      output_parameters:
+        type: string
+        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
   User:
     type: object
     properties:
