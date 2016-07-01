@@ -9,6 +9,6 @@ def create_processdef(request):
 
 
 # Index that provides a description of the API
-def processes(request):
-    processes_list = models.ProcessDefinition.objects.all()
-    return render(request, "processes.html", {"processes": processes_list})
+def processdefs(request):
+    processdef_list = models.ProcessDefinition.objects.all()
+    return render(request, "processdefs.html", {"processdefs": processdef_list})

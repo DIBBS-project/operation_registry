@@ -5,7 +5,7 @@ import rest_framework.authtoken.views
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
-router.register(r'processdef', views.ProcessDefViewSet)
+router.register(r'processdefs', views.ProcessDefViewSet)
 router.register(r'users', views.UserViewSet)
 
 # The API URLs are now determined automatically by the router.
