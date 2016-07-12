@@ -23,7 +23,7 @@
     <!-- 2016-03-24 Thu 11:21 -->
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <meta name="generator" content="Org-mode"/>
-    <meta name="author" content="Jonathan"/>
+    <meta name="author" content="Jonathan & Maverick"/>
     <style type="text/css">
     </style>
     <script type="text/javascript">
@@ -47,7 +47,6 @@
 <body>
 <div id="content_hidden" style="display: none;">Hidden</div>
 <div id="content">
-    <h3>Process definitions</h3>
     <table class="table">
         <thead>
         <tr>
@@ -60,7 +59,7 @@
         <tbody>
         {% for process in processdefs %}
             <tr>
-                <td>Process {{ process.id }}</td>
+                <td>{{ process.id }}</td>
                 <td>{{ process.name }}</td>
                 <td><code class="code">{{ process.argv }}</code></td>
                 <td><code class="code">{{ process.output_parameters }}</code> ({{ process.output_type }})</td>
