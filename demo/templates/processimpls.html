@@ -23,7 +23,7 @@
     <!-- 2016-03-24 Thu 11:21 -->
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <meta name="generator" content="Org-mode"/>
-    <meta name="author" content="Jonathan & Maverick"/>
+    <meta name="author" content="Jonathan"/>
     <style type="text/css">
     </style>
     <script type="text/javascript">
@@ -47,22 +47,25 @@
 <body>
 <div id="content_hidden" style="display: none;">Hidden</div>
 <div id="content">
+    <h3>Process implementations</h3>
     <table class="table">
         <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Argv</th>
-            <th>Output</th>
+            <th>Appliance</th>
+            <th>Archive</th>
+            <th>Executable</th>
         </tr>
         </thead>
         <tbody>
         {% for process in processdefs %}
             <tr>
-                <td>{{ process.id }}</td>
+                <td>Process {{ process.id }}</td>
                 <td>{{ process.name }}</td>
-                <td><code class="code">{{ process.argv }}</code></td>
-                <td><code class="code">{{ process.output_parameters }}</code> ({{ process.output_type }})</td>
+                <td>{{ process.appliance }}</td>
+                <td><code class="code">{{ process.archive_url }}</code></td>
+                <td>{{ process.executable }}</td>
             </tr>
         {% endfor %}
         </tbody>
