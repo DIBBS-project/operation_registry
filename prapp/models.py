@@ -19,9 +19,9 @@ class ProcessDefinition(models.Model):
     output_parameters = JSONField(blank=True)
 
 
-    @property
-    def __str__(self):
-        return self.name
+    # @property
+    # def __str__(self):
+    #     return self.name
 
 
 class ProcessImplementation(models.Model):

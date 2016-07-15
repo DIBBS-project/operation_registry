@@ -23,7 +23,7 @@
     <!-- 2016-03-24 Thu 11:21 -->
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <meta name="generator" content="Org-mode"/>
-    <meta name="author" content="Jonathan"/>
+    <meta name="author" content="Jonathan & Maverick"/>
     <style type="text/css">
     </style>
     <script type="text/javascript">
@@ -47,25 +47,30 @@
 <body>
 <div id="content_hidden" style="display: none;">Hidden</div>
 <div id="content">
-    <h3>Process implementations</h3>
     <table class="table">
         <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Process Definition</th>
             <th>Appliance</th>
             <th>Archive</th>
             <th>Executable</th>
+            <th>CWD</th>
+            <th>Environment</th>
         </tr>
         </thead>
         <tbody>
-        {% for process in processdefs %}
+        {% for processimpl in processimpls %}
             <tr>
-                <td>Process {{ process.id }}</td>
-                <td>{{ process.name }}</td>
-                <td>{{ process.appliance }}</td>
-                <td><code class="code">{{ process.archive_url }}</code></td>
-                <td>{{ process.executable }}</td>
+                <td>{{ processimpl.id }}</td>
+                <td>{{ processimpl.name }}</td>
+                <td>{{ processimpl.process_definition.id }} - {{ processimpl.process_definition.name }}</td>
+                <td>{{ processimpl.appliance }}</td>
+                <td><code class="code">{{ processimpl.archive_url }}</code></td>
+                <td>{{ processimpl.executable }}</td>
+                <td>{{ processimpl.cwd }}</td>
+                <td><code class="code">{{ processimpl.environment }}</code></td>
             </tr>
         {% endfor %}
         </tbody>
