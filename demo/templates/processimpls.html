@@ -52,17 +52,25 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Argv</th>
-            <th>Output</th>
+            <th>Process Definition</th>
+            <th>Appliance</th>
+            <th>Archive</th>
+            <th>Executable</th>
+            <th>CWD</th>
+            <th>Environment</th>
         </tr>
         </thead>
         <tbody>
-        {% for process in processdefs %}
+        {% for processimpl in processimpls %}
             <tr>
-                <td>{{ process.id }}</td>
-                <td>{{ process.name }}</td>
-                <td><code class="code">{{ process.argv }}</code></td>
-                <td><code class="code">{{ process.output_parameters }}</code> ({{ process.output_type }})</td>
+                <td>{{ processimpl.id }}</td>
+                <td>{{ processimpl.name }}</td>
+                <td>{{ processimpl.process_definition.id }} - {{ processimpl.process_definition.name }}</td>
+                <td>{{ processimpl.appliance }}</td>
+                <td><code class="code">{{ processimpl.archive_url }}</code></td>
+                <td>{{ processimpl.executable }}</td>
+                <td>{{ processimpl.cwd }}</td>
+                <td><code class="code">{{ processimpl.environment }}</code></td>
             </tr>
         {% endfor %}
         </tbody>

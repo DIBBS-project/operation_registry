@@ -193,6 +193,183 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+
+
+
+  /processimpls/:
+    get:
+      summary: Get the list of all the process implementations registered.
+      description: |
+        Get the list of all the process implementations registered. No authentification is required.
+      tags:
+        - Process implementations
+      responses:
+        200:
+          description: An array of process implementations
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProcessImpl'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Add a new process implementation.
+      description: |
+        Add a new process implementation. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: data
+          in: body
+          description: Process implementation
+          required: true
+          schema:
+            $ref: '#/definitions/ProcessImplPost'
+      tags:
+        - Process definitions
+      responses:
+        201:
+          description: The newly created process implementation
+          schema:
+            $ref: '#/definitions/ProcessImpl'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /processimpls/{id}/:
+    get:
+      summary: Get a single process implementation.
+      description: |
+        Get a single process implementation. Authentification is required.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process implementation
+          required: true
+          type: integer
+          minimum: 0
+      tags:
+        - Process implementation
+      responses:
+        200:
+          description: The process implementations matching the given Id
+          schema:
+            $ref: '#/definitions/ProcessImpl'
+        404:
+          description: No process implementation with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Redefine an already existing process implementation.
+      description: |
+        Redefine an already existing process implementation. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process implementation
+          required: true
+          type: integer
+          minimum: 0
+        - name: data
+          in: body
+          description: Process implementation
+          required: true
+          schema:
+            $ref: '#/definitions/ProcessImplPost'
+      tags:
+        - Process definitions
+      responses:
+        200:
+          description: The updated process implementation
+          schema:
+            $ref: '#/definitions/ProcessImpl'
+        404:
+          description: No process implementation with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Modify an already existing process implementation.
+      description: |
+        Modify an already existing process implementation. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process implementation
+          required: true
+          type: integer
+          minimum: 0
+        - name: data
+          in: body
+          description: Process implementation
+          required: true
+          schema:
+            $ref: '#/definitions/ProcessImplPatch'
+      tags:
+        - Process definitions
+      responses:
+        200:
+          description: The updated process implementation
+          schema:
+            $ref: '#/definitions/ProcessImpl'
+        404:
+          description: No process implementation with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete an already existing process implementation.
+      description: |
+        Delete an already existing process implementation. Authentification is required.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process implementation
+          required: true
+          type: integer
+          minimum: 0
+      security:
+        - basic: []
+        - api_key: []
+      tags:
+        - Process implementations
+      responses:
+        204:
+          description: Process implementation correctly deleted
+        404:
+          description: No process implementation with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+
+
   /users/:
     get:
       summary: Get the list of all the users.
@@ -274,25 +451,6 @@ definitions:
       author:
         type: integer
         description: Unique ID of the user who created the process
-      appliance:
-        type: string
-        description: Name of the appliance on which the process must be run
-      archive_url:
-        type: string
-        description: URL of the archive to be downloaded and extracted on the worker of the cluster before starting the job
-      creation_date:
-        type: string
-        format: date-time
-        description: Date and time of creation of the process
-      executable:
-        type: string
-        description: Path to the executable
-      cwd:
-        type: string
-        description: Working directory to be in when ruing the process
-      environment:
-        type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
       argv:
         type: string
         description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
@@ -302,32 +460,23 @@ definitions:
       output_parameters:
         type: string
         description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
+      implementations:
+        type: array
+        items:
+          type: integer
+        description: IDs of the corresponding implementations
   ProcessDefPost:
     type: object
     required:
       - name
-      - appliance
-      - executable
       - output_type
     properties:
       name:
+        type: string
         description: Name given to the process
-        type: string
-      appliance:
-        type: string
-        description: Name of the appliance on which the process must be run
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      executable:
-        type: string
-        description: Path to the executable
-      cwd:
-        type: string
-        description: Working directory to be in when ruing the process
-      environment:
-        type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+      author:
+        type: integer
+        description: Unique ID of the user who created the process
       argv:
         type: string
         description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
@@ -341,23 +490,11 @@ definitions:
     type: object
     properties:
       name:
+        type: string
         description: Name given to the process
-        type: string
-      appliance:
-        type: string
-        description: Name of the appliance on which the process must be run
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      executable:
-        type: string
-        description: Path to the executable
-      cwd:
-        type: string
-        description: Working directory to be in when ruing the process
-      environment:
-        type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+      author:
+        type: integer
+        description: Unique ID of the user who created the process
       argv:
         type: string
         description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
@@ -406,3 +543,83 @@ definitions:
       password:
         description: Password of the user
         type: string
+  ProcessImpl:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique ID of the process implementation
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      executable:
+        type: string
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+  ProcessImplPost:
+    type: object
+    required:
+      - name
+      - appliance
+      - executable
+      - process_definition
+    properties:
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      executable:
+        type: string
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+  ProcessImplPatch:
+    type: object
+    properties:
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      executable:
+        type: string
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)

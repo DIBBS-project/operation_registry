@@ -14,20 +14,26 @@ from rest_framework.authtoken.models import Token
 class ProcessDefinition(models.Model):
     name = models.CharField(max_length=256)
     author = models.ForeignKey('auth.User', related_name='process_definitions')
+    argv = JSONField(blank=True)
+    output_type = models.CharField(max_length=256)
+    output_parameters = JSONField(blank=True)
+
+
+    # @property
+    # def __str__(self):
+    #     return self.name
+
+
+class ProcessImplementation(models.Model):
+    name = models.CharField(max_length=256)
+    author = models.ForeignKey('auth.User', related_name='process_implementations')
+    process_definition = models.ForeignKey(ProcessDefinition, related_name='implementations')
     appliance = models.CharField(max_length=256)
     archive_url = models.URLField(blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     executable = models.CharField(max_length=2048)
     cwd = models.CharField(max_length=2048, blank=True)
     environment = JSONField(blank=True)
-    argv = JSONField(blank=True)
-    output_type = models.CharField(max_length=256)
-    output_parameters = JSONField(blank=True)
-
-
-    @property
-    def __str__(self):
-        return self.name
 
 
 # Add a token upon user creation
