@@ -58,6 +58,9 @@
             <th>Executable</th>
             <th>CWD</th>
             <th>Environment</th>
+            <th>Argv</th>
+            <th>Output Type</th>
+            <th>Output Parameters</th>
         </tr>
         </thead>
         <tbody>
@@ -65,12 +68,15 @@
             <tr>
                 <td>{{ processimpl.id }}</td>
                 <td>{{ processimpl.name }}</td>
-                <td>{{ processimpl.process_definition.id }} - {{ processimpl.process_definition.name }}</td>
+                <td>#{{ processimpl.process_definition.id }} - {{ processimpl.process_definition.name }}</td>
                 <td>{{ processimpl.appliance }}</td>
                 <td><code class="code">{{ processimpl.archive_url }}</code></td>
                 <td>{{ processimpl.executable }}</td>
-                <td>{{ processimpl.cwd }}</td>
+                <td><code class="code">{{ processimpl.cwd }}</code></td>
                 <td><code class="code">{{ processimpl.environment }}</code></td>
+                <td><code class="code">{{ processimpl.argv }}</code></td>
+                <td>{{ processimpl.output_type }}</td>
+                <td><code class="code">{{ processimpl.output_parameters }}</code></td>
             </tr>
         {% endfor %}
         </tbody>
