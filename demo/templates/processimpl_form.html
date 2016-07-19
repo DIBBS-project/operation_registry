@@ -68,6 +68,20 @@
             <label for="environment">Environment (JSON dictionary):</label>
             <textarea class="form-control" rows="5" cols="50" id="environment" name="environment"></textarea>
         </div>
+        <div class="form-group">
+            <label for="argv">Argv (JSON array):</label>
+            <textarea class="form-control" rows="5" cols="50" id="argv" name="argv"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="output_type">Output type:</label>
+            <select class="form-control" name="output_type" id="output_type" required>
+                <option value="file">File</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="output_parameters">Output parameters (JSON dictionary):</label>
+            <textarea class="form-control" rows="5" cols="50" id="output_parameters" name="output_parameters"></textarea>
+        </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
 </div>

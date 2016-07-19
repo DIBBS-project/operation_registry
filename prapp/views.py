@@ -1,7 +1,3 @@
-from prapp.permissions import IsOwnerOrReadOnly
-
-# Create your views here.
-
 from django.contrib.auth.models import User
 from prapp.models import ProcessDefinition, ProcessImplementation
 from prapp.serializers import ProcessDefinitionSerializer, ProcessImplementationSerializer, UserSerializer
@@ -35,8 +31,7 @@ class ProcessDefViewSet(viewsets.ModelViewSet):
     """
     queryset = ProcessDefinition.objects.all()
     serializer_class = ProcessDefinitionSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -48,6 +43,13 @@ class ProcessDefViewSet(viewsets.ModelViewSet):
             data2[key] = request.data[key]
         data2[u'author'] = request.user.id
         data2[u'implementations'] = {}
+
+        if data2[u'string_parameters'] == u'':
+            data2[u'string_parameters'] = u'[]'
+
+        if data2[u'file_parameters'] == u'':
+            data2[u'file_parameters'] = u'[]'
+
         serializer = self.get_serializer(data=data2)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -62,8 +64,7 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
     """
     queryset = ProcessImplementation.objects.all()
     serializer_class = ProcessImplementationSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -78,13 +79,55 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
         data2 = {}
         for key in request.data:
-            if key == "process_definition":
-                data2["process_definition"] = request.data[key]
-            else:
-                data2[key] = request.data[key]
+            data2[key] = request.data[key]
+
         data2[u'author'] = request.user.id
+
+        if data2[u'argv'] == u'':
+            data2[u'argv'] = u'[]'
+
+        if data2[u'environment'] == u'':
+            data2[u'environment'] = u'{}'
+
+        if data2[u'output_parameters'] == u'':
+            data2[u'output_parameters'] = u'{}'
+
         serializer = self.get_serializer(data=data2)
         serializer.is_valid(raise_exception=True)
+
+        # Check that there are no extra variables (that all are declared in the process definition)
+        from process_record import variables_set, files_set
+        import json
+        str_set = variables_set(json.loads(data2[u'argv']),
+                                json.loads(data2[u'environment']),
+                                data2[u'output_type'],
+                                json.loads(data2[u'output_parameters']))
+        fil_set = files_set(json.loads(data2[u'argv']),
+                            json.loads(data2[u'environment']))
+
+        process_definition = ProcessDefinition.objects.get(id=data2[u'process_definition'])
+        if process_definition.string_parameters:
+            strs = json.loads(process_definition.string_parameters)
+        else:
+            strs = []
+        if process_definition.string_parameters:
+            fils = json.loads(process_definition.file_parameters)
+        else:
+            fils = []
+
+        for e in str_set:
+            if e not in strs:
+                return Response(
+                    '{"error": "String parameter \'%s\' not declared in the process definition \'%s\'"}'
+                    % (e, process_definition.name),
+                    status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
+        for e in fil_set:
+            if e not in fils:
+                return Response(
+                    '{"error": "File parameter \'%s\' not declared in the process definition \'%s\'"}'
+                    % (e, process_definition.name),
+                    status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
+
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

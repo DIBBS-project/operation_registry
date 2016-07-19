@@ -52,8 +52,9 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Argv</th>
-            <th>Output</th>
+            <th>Description</th>
+            <th>String parameters</th>
+            <th>File parameters</th>
         </tr>
         </thead>
         <tbody>
@@ -61,8 +62,9 @@
             <tr>
                 <td>{{ process.id }}</td>
                 <td>{{ process.name }}</td>
-                <td><code class="code">{{ process.argv }}</code></td>
-                <td><code class="code">{{ process.output_parameters }}</code> ({{ process.output_type }})</td>
+                <td>{{ process.description }}</td>
+                <td><code class="code">{{ process.string_parameters }}</code></td>
+                <td><code class="code">{{ process.file_parameters }}</code></td>
             </tr>
         {% endfor %}
         </tbody>
