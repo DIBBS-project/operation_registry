@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: Process Registry API
   description: Register processes with the Process Registry API.
-  version: "0.1.5"
+  version: "0.1.6"
 # the domain of the service
 host: 127.0.0.1:8000
 # array of all schemes that your API supports
@@ -253,7 +253,7 @@ paths:
           type: integer
           minimum: 0
       tags:
-        - Process implementation
+        - Process implementations
       responses:
         200:
           description: The process implementations matching the given Id
@@ -444,57 +444,158 @@ definitions:
     properties:
       id:
         type: integer
-        description: Unique ID of the process
+        description: Unique ID of the process definition
       name:
         type: string
-        description: Name given to the process
+        description: Name given to the process definition
       author:
         type: integer
-        description: Unique ID of the user who created the process
-      argv:
+        description: Unique ID of the user who created the process definition
+      description:
         type: string
-        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
-      output_type:
+        description: Textual description of the semantics of the process
+      string_parameters:
         type: string
-        description: type of output (e.g. file, stream)
-      output_parameters:
+        description: JSON-formatted array (treated as a set) giving the list of string parameters of the process
+      file_parameters:
         type: string
-        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
+        description: JSON-formatted array (treated as a set) giving the list of file parameters of the process
       implementations:
         type: array
         items:
           type: integer
-        description: IDs of the corresponding implementations
+        description: List of IDs of the corresponding process implementations
   ProcessDefPost:
     type: object
     required:
       - name
-      - output_type
     properties:
       name:
         type: string
-        description: Name given to the process
-      author:
-        type: integer
-        description: Unique ID of the user who created the process
-      argv:
+        description: Name given to the process definition
+      description:
         type: string
-        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
-      output_type:
+        description: Textual description of the semantics of the process
+      string_parameters:
         type: string
-        description: type of output (e.g. file, stream)
-      output_parameters:
+        description: JSON-formatted array (treated as a set) giving the list of string parameters of the process
+      file_parameters:
         type: string
-        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
+        description: JSON-formatted array (treated as a set) giving the list of file parameters of the process
   ProcessDefPatch:
     type: object
     properties:
       name:
         type: string
-        description: Name given to the process
-      author:
+        description: Name given to the process definition
+      description:
+        type: string
+        description: Textual description of the semantics of the process
+      string_parameters:
+        type: string
+        description: JSON-formatted array (treated as a set) giving the list of string parameters of the process
+      file_parameters:
+        type: string
+        description: JSON-formatted array (treated as a set) giving the list of file parameters of the process
+  ProcessImpl:
+    type: object
+    properties:
+      id:
         type: integer
-        description: Unique ID of the user who created the process
+        description: Unique ID of the process implementation
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      executable:
+        type: string
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+      argv:
+        type: string
+        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
+      output_type:
+        type: string
+        description: type of output (e.g. file, stream)
+      output_parameters:
+        type: string
+        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
+  ProcessImplPost:
+    type: object
+    required:
+      - name
+      - appliance
+      - executable
+      - process_definition
+      - output_type
+    properties:
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      executable:
+        type: string
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
+      argv:
+        type: string
+        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
+      output_type:
+        type: string
+        description: type of output (e.g. file, stream)
+      output_parameters:
+        type: string
+        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
+  ProcessImplPatch:
+    type: object
+    properties:
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      archive_url:
+        type: string
+        description: URL of the archive to download and extract on the worker before starting the job
+      executable:
+        type: string
+        description: Path to the executable
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      environment:
+        type: string
+        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
       argv:
         type: string
         description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
@@ -543,83 +644,3 @@ definitions:
       password:
         description: Password of the user
         type: string
-  ProcessImpl:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Unique ID of the process implementation
-      name:
-        description: Name given to the process implementation
-        type: string
-      appliance:
-        type: string
-        description: Name of the appliance on which the process implementation must be run
-      process_definition:
-        type: integer
-        description: Id of the process definition linked with this new implementation
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      executable:
-        type: string
-        description: Path to the executable
-      cwd:
-        type: string
-        description: Working directory to be in when ruing the process implementation
-      environment:
-        type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
-  ProcessImplPost:
-    type: object
-    required:
-      - name
-      - appliance
-      - executable
-      - process_definition
-    properties:
-      name:
-        description: Name given to the process implementation
-        type: string
-      appliance:
-        type: string
-        description: Name of the appliance on which the process implementation must be run
-      process_definition:
-        type: integer
-        description: Id of the process definition linked with this new implementation
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      executable:
-        type: string
-        description: Path to the executable
-      cwd:
-        type: string
-        description: Working directory to be in when ruing the process implementation
-      environment:
-        type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
-  ProcessImplPatch:
-    type: object
-    properties:
-      name:
-        description: Name given to the process implementation
-        type: string
-      appliance:
-        type: string
-        description: Name of the appliance on which the process implementation must be run
-      process_definition:
-        type: integer
-        description: Id of the process definition linked with this new implementation
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      executable:
-        type: string
-        description: Path to the executable
-      cwd:
-        type: string
-        description: Working directory to be in when ruing the process implementation
-      environment:
-        type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
