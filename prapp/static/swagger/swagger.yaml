@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: Process Registry API
   description: Register processes with the Process Registry API.
-  version: "0.1.6"
+  version: "0.1.7"
 # the domain of the service
 host: 127.0.0.1:8000
 # array of all schemes that your API supports
@@ -230,7 +230,7 @@ paths:
           schema:
             $ref: '#/definitions/ProcessImplPost'
       tags:
-        - Process definitions
+        - Process implementations
       responses:
         201:
           description: The newly created process implementation
@@ -289,7 +289,7 @@ paths:
           schema:
             $ref: '#/definitions/ProcessImplPost'
       tags:
-        - Process definitions
+        - Process implementations
       responses:
         200:
           description: The updated process implementation
@@ -325,7 +325,7 @@ paths:
           schema:
             $ref: '#/definitions/ProcessImplPatch'
       tags:
-        - Process definitions
+        - Process implementations
       responses:
         200:
           description: The updated process implementation
