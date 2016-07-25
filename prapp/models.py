@@ -13,6 +13,7 @@ from rest_framework.authtoken.models import Token
 
 class ProcessDefinition(models.Model):
     name = models.CharField(max_length=256)
+    logo_url = models.CharField(max_length=512, blank=True, default='')
     author = models.ForeignKey('auth.User', related_name='process_definitions')
     description = models.TextField(blank=True, default='')
     string_parameters = JSONField(blank=True, default='[]')

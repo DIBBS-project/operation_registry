@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: Process Registry API
   description: Register processes with the Process Registry API.
-  version: "0.1.7"
+  version: "0.1.8"
 # the domain of the service
 host: 127.0.0.1:8000
 # array of all schemes that your API supports
@@ -448,6 +448,9 @@ definitions:
       name:
         type: string
         description: Name given to the process definition
+      logo_url:
+        type: string
+        description: URL to a logo image
       author:
         type: integer
         description: Unique ID of the user who created the process definition
@@ -473,6 +476,9 @@ definitions:
       name:
         type: string
         description: Name given to the process definition
+      logo_url:
+        type: string
+        description: URL to a logo image
       description:
         type: string
         description: Textual description of the semantics of the process
@@ -488,6 +494,9 @@ definitions:
       name:
         type: string
         description: Name given to the process definition
+      logo_url:
+        type: string
+        description: URL to a logo image
       description:
         type: string
         description: Textual description of the semantics of the process

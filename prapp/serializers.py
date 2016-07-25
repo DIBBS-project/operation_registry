@@ -8,7 +8,7 @@ class ProcessDefinitionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProcessDefinition
-        fields = ('id', 'name', 'author', 'description', 'string_parameters', 'file_parameters', 'implementations')
+        fields = ('id', 'name', 'logo_url', 'author', 'description', 'string_parameters', 'file_parameters', 'implementations')
 
 
 class ProcessImplementationSerializer(serializers.ModelSerializer):
