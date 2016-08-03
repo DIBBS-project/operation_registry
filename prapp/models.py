@@ -31,7 +31,7 @@ class ProcessImplementation(models.Model):
     appliance = models.CharField(max_length=256)
     creation_date = models.DateTimeField(auto_now_add=True)
     cwd = models.CharField(max_length=2048, blank=True, default='~')
-    script = models.CharField(max_length=2048)
+    script = models.TextField()
     output_type = models.CharField(max_length=256)
     output_parameters = JSONField(blank=True, default='{}')
 
