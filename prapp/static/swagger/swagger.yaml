@@ -521,21 +521,12 @@ definitions:
       process_definition:
         type: integer
         description: Id of the process definition linked with this new implementation
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      executable:
-        type: string
-        description: Path to the executable
       cwd:
         type: string
         description: Working directory to be in when ruing the process implementation
-      environment:
+      script:
         type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
-      argv:
-        type: string
-        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
+        description: Script to execute to run the process on the cluster
       output_type:
         type: string
         description: type of output (e.g. file, stream)
@@ -547,7 +538,7 @@ definitions:
     required:
       - name
       - appliance
-      - executable
+      - script
       - process_definition
       - output_type
     properties:
@@ -560,21 +551,12 @@ definitions:
       process_definition:
         type: integer
         description: Id of the process definition linked with this new implementation
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      executable:
-        type: string
-        description: Path to the executable
       cwd:
         type: string
         description: Working directory to be in when ruing the process implementation
-      environment:
+      script:
         type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
-      argv:
-        type: string
-        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
+        description: Script to execute to run the process on the cluster
       output_type:
         type: string
         description: type of output (e.g. file, stream)
@@ -593,21 +575,12 @@ definitions:
       process_definition:
         type: integer
         description: Id of the process definition linked with this new implementation
-      archive_url:
-        type: string
-        description: URL of the archive to download and extract on the worker before starting the job
-      executable:
-        type: string
-        description: Path to the executable
       cwd:
         type: string
         description: Working directory to be in when ruing the process implementation
-      environment:
+      script:
         type: string
-        description: JSON-formatted dictonary to give values to environment variables (can contain parameters)
-      argv:
-        type: string
-        description: JSON-formatted array being a list of arguments to give to the executable (can contain parameters)
+        description: Script to execute to run the process on the cluster
       output_type:
         type: string
         description: type of output (e.g. file, stream)

@@ -8,19 +8,22 @@ class ProcessDefinitionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProcessDefinition
-        fields = ('id', 'name', 'logo_url', 'author', 'description', 'string_parameters', 'file_parameters', 'implementations')
+        fields = ('id', 'name', 'logo_url', 'author', 'description', 'string_parameters', 'file_parameters',
+                  'implementations')
 
 
 class ProcessImplementationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessImplementation
-        fields = ('id', 'name', 'author', 'process_definition', 'appliance', 'archive_url', 'creation_date',
-                  'executable', 'cwd', 'environment', 'argv', 'output_type', 'output_parameters')
+        fields = ('id', 'name', 'author', 'process_definition', 'appliance', 'creation_date', 'cwd', 'script'
+                  'output_type', 'output_parameters')
 
 
 class UserSerializer(serializers.ModelSerializer):
-    process_definitions = serializers.PrimaryKeyRelatedField(many=True, queryset=ProcessDefinition.objects.all())
-    process_implementations = serializers.PrimaryKeyRelatedField(many=True, queryset=ProcessImplementation.objects.all())
+    process_definitions = serializers.PrimaryKeyRelatedField(many=True,
+                                                             queryset=ProcessDefinition.objects.all())
+    process_implementations = serializers.PrimaryKeyRelatedField(many=True,
+                                                                 queryset=ProcessImplementation.objects.all())
 
     class Meta:
         model = User

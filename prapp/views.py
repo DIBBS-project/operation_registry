@@ -77,17 +77,12 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
         except:
             return Response('{"error": "Cannot retrieve appliance %s"}' % request.data[u'appliance'],
                             status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
-        data2 = {}
+
+        data2 = {u'script': u''}
         for key in request.data:
             data2[key] = request.data[key]
 
         data2[u'author'] = request.user.id
-
-        if data2[u'argv'] == u'':
-            data2[u'argv'] = u'[]'
-
-        if data2[u'environment'] == u'':
-            data2[u'environment'] = u'{}'
 
         if data2[u'output_parameters'] == u'':
             data2[u'output_parameters'] = u'{}'
@@ -98,12 +93,10 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
         # Check that there are no extra variables (that all are declared in the process definition)
         from process_record import variables_set, files_set
         import json
-        str_set = variables_set(json.loads(data2[u'argv']),
-                                json.loads(data2[u'environment']),
+        str_set = variables_set(json.loads(data2[u'script']),
                                 data2[u'output_type'],
                                 json.loads(data2[u'output_parameters']))
-        fil_set = files_set(json.loads(data2[u'argv']),
-                            json.loads(data2[u'environment']))
+        fil_set = files_set(json.loads(data2[u'script']))
 
         process_definition = ProcessDefinition.objects.get(id=data2[u'process_definition'])
         if process_definition.string_parameters:
