@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: Process Registry API
   description: Register processes with the Process Registry API.
-  version: "0.1.8"
+  version: "0.1.9"
 # the domain of the service
 host: 127.0.0.1:8000
 # array of all schemes that your API supports
