@@ -6,15 +6,11 @@ def add_all_occurrences(string, pattern, params_set):
         params_set.add(match.group(1))
 
 
-def variables_set(argv, environment, output_type, output_parameters):
-    pattern = re.compile(r'\$\{(.*)\}')
+def variables_set(script, output_type, output_parameters):
+    pattern = re.compile(r'!\{([^\}]*)\}')
     params_set = set()
 
-    for i in range(len(argv)):
-        add_all_occurrences(argv[i], pattern, params_set)
-
-    for env in environment:
-        add_all_occurrences(environment[env], pattern, params_set)
+    add_all_occurrences(script, pattern, params_set)
 
     if output_type == u'file':
         if u'file_path' in output_parameters:
@@ -27,14 +23,10 @@ def variables_set(argv, environment, output_type, output_parameters):
     return params_set
 
 
-def files_set(argv, environment):
-    pattern = re.compile(r'@\{(.*)\}')
+def files_set(script):
+    pattern = re.compile(r'@\{([^\}]*)\}')
     params_set = set()
 
-    for i in range(len(argv)):
-        add_all_occurrences(argv[i], pattern, params_set)
-
-    for env in environment:
-        add_all_occurrences(environment[env], pattern, params_set)
+    add_all_occurrences(script, pattern, params_set)
 
     return params_set
