@@ -15,7 +15,7 @@ class ProcessDefinitionSerializer(serializers.ModelSerializer):
 class ProcessImplementationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessImplementation
-        fields = ('id', 'name', 'author', 'process_definition', 'appliance', 'creation_date', 'cwd', 'script'
+        fields = ('id', 'name', 'author', 'process_definition', 'appliance', 'creation_date', 'cwd', 'script',
                   'output_type', 'output_parameters')
 
 

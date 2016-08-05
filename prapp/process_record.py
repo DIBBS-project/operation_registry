@@ -7,7 +7,7 @@ def add_all_occurrences(string, pattern, params_set):
 
 
 def variables_set(script, output_type, output_parameters):
-    pattern = re.compile(r'\$\{(.*)\}')
+    pattern = re.compile(r'!\{([^\}]*)\}')
     params_set = set()
 
     add_all_occurrences(script, pattern, params_set)
@@ -24,7 +24,7 @@ def variables_set(script, output_type, output_parameters):
 
 
 def files_set(script):
-    pattern = re.compile(r'@\{(.*)\}')
+    pattern = re.compile(r'@\{([^\}]*)\}')
     params_set = set()
 
     add_all_occurrences(script, pattern, params_set)

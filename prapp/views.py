@@ -93,10 +93,10 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
         # Check that there are no extra variables (that all are declared in the process definition)
         from process_record import variables_set, files_set
         import json
-        str_set = variables_set(json.loads(data2[u'script']),
+        str_set = variables_set(data2[u'script'],
                                 data2[u'output_type'],
                                 json.loads(data2[u'output_parameters']))
-        fil_set = files_set(json.loads(data2[u'script']))
+        fil_set = files_set(data2[u'script'])
 
         process_definition = ProcessDefinition.objects.get(id=data2[u'process_definition'])
         if process_definition.string_parameters:
