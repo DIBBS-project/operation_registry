@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
-  title: Process Registry API
-  description: Register processes with the Process Registry API.
+  title: Operation Registry API
+  description: Register operations with the Operation Registry API.
   version: "0.1.9"
 # the domain of the service
 host: 127.0.0.1:8000
