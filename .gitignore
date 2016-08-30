@@ -4,6 +4,7 @@ tmp
 .idea
 db.sqlite3
 prapp/migrations
+orapp/migrations
 
 # MAC OS
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render
-import prapp.models as models
-from prapp.ar_client.apis.appliances_api import AppliancesApi
+import orapp.models as models
+from orapp.ar_client.apis.appliances_api import AppliancesApi
 
 
 def create_processdef(request):

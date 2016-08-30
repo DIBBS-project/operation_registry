@@ -1,6 +1,6 @@
 #! /bin/bash
 
-APP=prapp
+APP=orapp
 
 echo "[RESET] Resetting the application..."
 rm -rf tmp
