@@ -10,17 +10,17 @@ def create_processdef(request):
 
 def create_processimpl(request):
     appliances = AppliancesApi().appliances_get()
-    processdef_list = models.ProcessDefinition.objects.all()
+    processdef_list = models.Operation.objects.all()
     return render(request, "processimpl_form.html", {"appliances": appliances, "processdefs": processdef_list})
 
 
 # Index that provides a description of the API
 def processdefs(request):
-    processdef_list = models.ProcessDefinition.objects.all()
+    processdef_list = models.Operation.objects.all()
     return render(request, "processdefs.html", {"processdefs": processdef_list})
 
 
 # Index that provides a description of the API
 def processimpls(request):
-    processimpl_list = models.ProcessImplementation.objects.all()
+    processimpl_list = models.OperationVersion.objects.all()
     return render(request, "processimpls.html", {"processimpls": processimpl_list})

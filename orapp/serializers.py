@@ -1,30 +1,30 @@
 from rest_framework import serializers
-from models import ProcessDefinition, ProcessImplementation
+from models import Operation, OperationVersion
 from django.contrib.auth.models import User
 
 
-class ProcessDefinitionSerializer(serializers.ModelSerializer):
-    implementations = serializers.PrimaryKeyRelatedField(many=True, queryset=ProcessImplementation.objects.all())
+class OperationSerializer(serializers.ModelSerializer):
+    implementations = serializers.PrimaryKeyRelatedField(many=True, queryset=OperationVersion.objects.all())
 
     class Meta:
-        model = ProcessDefinition
+        model = Operation
         fields = ('id', 'name', 'logo_url', 'author', 'description', 'string_parameters', 'file_parameters',
                   'implementations')
 
 
-class ProcessImplementationSerializer(serializers.ModelSerializer):
+class OperationVersionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProcessImplementation
-        fields = ('id', 'name', 'author', 'process_definition', 'appliance', 'creation_date', 'cwd', 'script',
+        model = OperationVersion
+        fields = ('id', 'name', 'author', 'operation', 'appliance', 'creation_date', 'cwd', 'script',
                   'output_type', 'output_parameters')
 
 
 class UserSerializer(serializers.ModelSerializer):
-    process_definitions = serializers.PrimaryKeyRelatedField(many=True,
-                                                             queryset=ProcessDefinition.objects.all())
-    process_implementations = serializers.PrimaryKeyRelatedField(many=True,
-                                                                 queryset=ProcessImplementation.objects.all())
+    operations = serializers.PrimaryKeyRelatedField(many=True,
+                                                    queryset=Operation.objects.all())
+    operation_versions = serializers.PrimaryKeyRelatedField(many=True,
+                                                            queryset=OperationVersion.objects.all())
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'process_definitions', 'process_implementations')
+        fields = ('id', 'username', 'operations', 'operation_versions')

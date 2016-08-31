@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import ProcessDefinition, ProcessImplementation
+from .models import Operation, OperationVersion
 
-admin.site.register(ProcessDefinition)
-admin.site.register(ProcessImplementation)
+admin.site.register(Operation)
+admin.site.register(OperationVersion)

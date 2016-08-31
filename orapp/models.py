@@ -11,10 +11,10 @@ from rest_framework.authtoken.models import Token
 # Create your models here.
 
 
-class ProcessDefinition(models.Model):
+class Operation(models.Model):
     name = models.CharField(max_length=256)
     logo_url = models.CharField(max_length=512, blank=True, default='')
-    author = models.ForeignKey('auth.User', related_name='process_definitions')
+    author = models.ForeignKey('auth.User', related_name='operation_definitions')
     description = models.TextField(blank=True, default='')
     string_parameters = JSONField(blank=True, default='[]')
     file_parameters = JSONField(blank=True, default='[]')
@@ -24,10 +24,10 @@ class ProcessDefinition(models.Model):
     #     return self.name
 
 
-class ProcessImplementation(models.Model):
+class OperationVersion(models.Model):
     name = models.CharField(max_length=256)
     author = models.ForeignKey('auth.User', related_name='process_implementations')
-    process_definition = models.ForeignKey(ProcessDefinition, related_name='implementations')
+    operation = models.ForeignKey(Operation, related_name='implementations')
     appliance = models.CharField(max_length=256)
     creation_date = models.DateTimeField(auto_now_add=True)
     cwd = models.CharField(max_length=2048, blank=True, default='~')

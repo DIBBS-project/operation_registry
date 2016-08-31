@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
-from orapp.models import ProcessDefinition, ProcessImplementation
-from orapp.serializers import ProcessDefinitionSerializer, ProcessImplementationSerializer, UserSerializer
+from orapp.models import Operation, OperationVersion
+from orapp.serializers import OperationSerializer, OperationVersionSerializer, UserSerializer
 from rest_framework import viewsets, permissions, status
 
 from rest_framework.decorators import api_view
@@ -29,8 +29,8 @@ class ProcessDefViewSet(viewsets.ModelViewSet):
     This viewset automatically provides `list`, `create`, `retrieve`,
     `update` and `destroy` actions.
     """
-    queryset = ProcessDefinition.objects.all()
-    serializer_class = ProcessDefinitionSerializer
+    queryset = Operation.objects.all()
+    serializer_class = OperationSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
@@ -62,8 +62,8 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
     This viewset automatically provides `list`, `create`, `retrieve`,
     `update` and `destroy` actions.
     """
-    queryset = ProcessImplementation.objects.all()
-    serializer_class = ProcessImplementationSerializer
+    queryset = OperationVersion.objects.all()
+    serializer_class = OperationVersionSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
@@ -98,7 +98,7 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
                                 json.loads(data2[u'output_parameters']))
         fil_set = files_set(data2[u'script'])
 
-        process_definition = ProcessDefinition.objects.get(id=data2[u'process_definition'])
+        process_definition = Operation.objects.get(id=data2[u'operation'])
         if process_definition.string_parameters:
             strs = json.loads(process_definition.string_parameters)
         else:

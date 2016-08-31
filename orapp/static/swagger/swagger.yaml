@@ -23,20 +23,20 @@ securityDefinitions:
   basic:
     type: basic
 paths:
-  /processdefs/:
+  /operations/:
     get:
       summary: Get the list of all the process definitions registered.
       description: |
         Get the list of all the process definitions registered. No authentification is required.
       tags:
-        - Process definitions
+        - Operations
       responses:
         200:
           description: An array of process definitions
           schema:
             type: array
             items:
-              $ref: '#/definitions/ProcessDef'
+              $ref: '#/definitions/Operations'
         default:
           description: Unexpected error
           schema:
@@ -48,26 +48,26 @@ paths:
       security:
         - basic: []
         - api_key: []
-      
+
       parameters:
         - name: data
           in: body
           description: Process definition
           required: true
           schema:
-            $ref: '#/definitions/ProcessDefPost'
+            $ref: '#/definitions/OperationsPost'
       tags:
-        - Process definitions
+        - Operations
       responses:
         201:
           description: The newly created process definition
           schema:
-            $ref: '#/definitions/ProcessDef'
+            $ref: '#/definitions/Operations'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /processdefs/{id}/:
+  /operations/{id}/:
     get:
       summary: Get a single process definition.
       description: |
@@ -80,12 +80,12 @@ paths:
           type: integer
           minimum: 0
       tags:
-        - Process definitions
+        - Operations
       responses:
         200:
           description: The process definitions matching the given Id
           schema:
-            $ref: '#/definitions/ProcessDef'
+            $ref: '#/definitions/Operations'
         404:
           description: No process definition with the given Id
           schema:
@@ -101,7 +101,7 @@ paths:
       security:
         - basic: []
         - api_key: []
-      
+
       parameters:
         - name: id
           in: path
@@ -114,14 +114,14 @@ paths:
           description: Process definition
           required: true
           schema:
-            $ref: '#/definitions/ProcessDefPost'
+            $ref: '#/definitions/OperationsPost'
       tags:
-        - Process definitions
+        - Operations
       responses:
         200:
           description: The updated process definition
           schema:
-            $ref: '#/definitions/ProcessDef'
+            $ref: '#/definitions/Operations'
         404:
           description: No process definition with the given Id
           schema:
@@ -137,7 +137,7 @@ paths:
       security:
         - basic: []
         - api_key: []
-      
+
       parameters:
         - name: id
           in: path
@@ -150,14 +150,14 @@ paths:
           description: Process definition
           required: true
           schema:
-            $ref: '#/definitions/ProcessDefPatch'
+            $ref: '#/definitions/OperationsPatch'
       tags:
-        - Process definitions
+        - Operations
       responses:
         200:
           description: The updated process definition
           schema:
-            $ref: '#/definitions/ProcessDef'
+            $ref: '#/definitions/Operations'
         404:
           description: No process definition with the given Id
           schema:
@@ -181,7 +181,7 @@ paths:
         - basic: []
         - api_key: []
       tags:
-        - Process definitions
+        - Operations
       responses:
         204:
           description: Process definition correctly deleted
@@ -196,20 +196,20 @@ paths:
 
 
 
-  /processimpls/:
+  /operationversions/:
     get:
       summary: Get the list of all the process implementations registered.
       description: |
         Get the list of all the process implementations registered. No authentification is required.
       tags:
-        - Process implementations
+        - OperationVersions
       responses:
         200:
           description: An array of process implementations
           schema:
             type: array
             items:
-              $ref: '#/definitions/ProcessImpl'
+              $ref: '#/definitions/OperationVersion'
         default:
           description: Unexpected error
           schema:
@@ -228,19 +228,19 @@ paths:
           description: Process implementation
           required: true
           schema:
-            $ref: '#/definitions/ProcessImplPost'
+            $ref: '#/definitions/OperationVersionPost'
       tags:
-        - Process implementations
+        - OperationVersions
       responses:
         201:
           description: The newly created process implementation
           schema:
-            $ref: '#/definitions/ProcessImpl'
+            $ref: '#/definitions/OperationVersion'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /processimpls/{id}/:
+  /operationversions/{id}/:
     get:
       summary: Get a single process implementation.
       description: |
@@ -253,12 +253,12 @@ paths:
           type: integer
           minimum: 0
       tags:
-        - Process implementations
+        - OperationVersions
       responses:
         200:
           description: The process implementations matching the given Id
           schema:
-            $ref: '#/definitions/ProcessImpl'
+            $ref: '#/definitions/OperationVersion'
         404:
           description: No process implementation with the given Id
           schema:
@@ -287,14 +287,14 @@ paths:
           description: Process implementation
           required: true
           schema:
-            $ref: '#/definitions/ProcessImplPost'
+            $ref: '#/definitions/OperationVersionPost'
       tags:
-        - Process implementations
+        - OperationVersions
       responses:
         200:
           description: The updated process implementation
           schema:
-            $ref: '#/definitions/ProcessImpl'
+            $ref: '#/definitions/OperationVersion'
         404:
           description: No process implementation with the given Id
           schema:
@@ -323,14 +323,14 @@ paths:
           description: Process implementation
           required: true
           schema:
-            $ref: '#/definitions/ProcessImplPatch'
+            $ref: '#/definitions/OperationVersionPatch'
       tags:
-        - Process implementations
+        - OperationVersions
       responses:
         200:
           description: The updated process implementation
           schema:
-            $ref: '#/definitions/ProcessImpl'
+            $ref: '#/definitions/OperationVersion'
         404:
           description: No process implementation with the given Id
           schema:
@@ -354,7 +354,7 @@ paths:
         - basic: []
         - api_key: []
       tags:
-        - Process implementations
+        - OperationVersions
       responses:
         204:
           description: Process implementation correctly deleted
@@ -439,7 +439,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 definitions:
-  ProcessDef:
+  Operations:
     type: object
     properties:
       id:
@@ -468,7 +468,7 @@ definitions:
         items:
           type: integer
         description: List of IDs of the corresponding process implementations
-  ProcessDefPost:
+  OperationsPost:
     type: object
     required:
       - name
@@ -488,7 +488,7 @@ definitions:
       file_parameters:
         type: string
         description: JSON-formatted array (treated as a set) giving the list of file parameters of the process
-  ProcessDefPatch:
+  OperationsPatch:
     type: object
     properties:
       name:
@@ -506,7 +506,7 @@ definitions:
       file_parameters:
         type: string
         description: JSON-formatted array (treated as a set) giving the list of file parameters of the process
-  ProcessImpl:
+  OperationVersion:
     type: object
     properties:
       id:
@@ -533,7 +533,7 @@ definitions:
       output_parameters:
         type: string
         description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
-  ProcessImplPost:
+  OperationVersionPost:
     type: object
     required:
       - name
@@ -563,7 +563,7 @@ definitions:
       output_parameters:
         type: string
         description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
-  ProcessImplPatch:
+  OperationVersionPatch:
     type: object
     properties:
       name:
@@ -596,7 +596,7 @@ definitions:
       username:
         type: string
         description: Name given to the user.
-      process_definitions:
+      operation_definitions:
         type: array
         description: Array of IDs of all the process descriptions created by the user
         items:
