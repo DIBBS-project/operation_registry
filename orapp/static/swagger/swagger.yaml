@@ -1,0 +1,628 @@
+swagger: '2.0'
+info:
+  title: Operation Registry API
+  description: Register operations with the Operation Registry API.
+  version: "0.1.9"
+# the domain of the service
+host: 127.0.0.1:8000
+# array of all schemes that your API supports
+schemes:
+# TODO: Change to HTTPS when not on localhost!
+  - http
+# will be prefixed to all paths
+# basePath: /orapp
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: Authorization
+    in: header
+  basic:
+    type: basic
+paths:
+  /operations/:
+    get:
+      summary: Get the list of all the process definitions registered.
+      description: |
+        Get the list of all the process definitions registered. No authentification is required.
+      tags:
+        - Operations
+      responses:
+        200:
+          description: An array of process definitions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Operations'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Add a new process definition.
+      description: |
+        Add a new process definition. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: data
+          in: body
+          description: Process definition
+          required: true
+          schema:
+            $ref: '#/definitions/OperationsPost'
+      tags:
+        - Operations
+      responses:
+        201:
+          description: The newly created process definition
+          schema:
+            $ref: '#/definitions/Operations'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /operations/{id}/:
+    get:
+      summary: Get a single process definition.
+      description: |
+        Get a single process definition. Authentification is required.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process description
+          required: true
+          type: integer
+          minimum: 0
+      tags:
+        - Operations
+      responses:
+        200:
+          description: The process definitions matching the given Id
+          schema:
+            $ref: '#/definitions/Operations'
+        404:
+          description: No process definition with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Redefine an already existing process definition.
+      description: |
+        Redefine an already existing process definition. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process description
+          required: true
+          type: integer
+          minimum: 0
+        - name: data
+          in: body
+          description: Process definition
+          required: true
+          schema:
+            $ref: '#/definitions/OperationsPost'
+      tags:
+        - Operations
+      responses:
+        200:
+          description: The updated process definition
+          schema:
+            $ref: '#/definitions/Operations'
+        404:
+          description: No process definition with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Modify an already existing process definition.
+      description: |
+        Modify an already existing process definition. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process description
+          required: true
+          type: integer
+          minimum: 0
+        - name: data
+          in: body
+          description: Process definition
+          required: true
+          schema:
+            $ref: '#/definitions/OperationsPatch'
+      tags:
+        - Operations
+      responses:
+        200:
+          description: The updated process definition
+          schema:
+            $ref: '#/definitions/Operations'
+        404:
+          description: No process definition with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete an already existing process definition.
+      description: |
+        Delete an already existing process definition. Authentification is required.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process description
+          required: true
+          type: integer
+          minimum: 0
+      security:
+        - basic: []
+        - api_key: []
+      tags:
+        - Operations
+      responses:
+        204:
+          description: Process definition correctly deleted
+        404:
+          description: No process definition with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+
+  /operationversions/:
+    get:
+      summary: Get the list of all the process implementations registered.
+      description: |
+        Get the list of all the process implementations registered. No authentification is required.
+      tags:
+        - OperationVersions
+      responses:
+        200:
+          description: An array of process implementations
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OperationVersion'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Add a new process implementation.
+      description: |
+        Add a new process implementation. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: data
+          in: body
+          description: Process implementation
+          required: true
+          schema:
+            $ref: '#/definitions/OperationVersionPost'
+      tags:
+        - OperationVersions
+      responses:
+        201:
+          description: The newly created process implementation
+          schema:
+            $ref: '#/definitions/OperationVersion'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /operationversions/{id}/:
+    get:
+      summary: Get a single process implementation.
+      description: |
+        Get a single process implementation. Authentification is required.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process implementation
+          required: true
+          type: integer
+          minimum: 0
+      tags:
+        - OperationVersions
+      responses:
+        200:
+          description: The process implementations matching the given Id
+          schema:
+            $ref: '#/definitions/OperationVersion'
+        404:
+          description: No process implementation with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Redefine an already existing process implementation.
+      description: |
+        Redefine an already existing process implementation. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process implementation
+          required: true
+          type: integer
+          minimum: 0
+        - name: data
+          in: body
+          description: Process implementation
+          required: true
+          schema:
+            $ref: '#/definitions/OperationVersionPost'
+      tags:
+        - OperationVersions
+      responses:
+        200:
+          description: The updated process implementation
+          schema:
+            $ref: '#/definitions/OperationVersion'
+        404:
+          description: No process implementation with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Modify an already existing process implementation.
+      description: |
+        Modify an already existing process implementation. Authentification is required.
+      security:
+        - basic: []
+        - api_key: []
+
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process implementation
+          required: true
+          type: integer
+          minimum: 0
+        - name: data
+          in: body
+          description: Process implementation
+          required: true
+          schema:
+            $ref: '#/definitions/OperationVersionPatch'
+      tags:
+        - OperationVersions
+      responses:
+        200:
+          description: The updated process implementation
+          schema:
+            $ref: '#/definitions/OperationVersion'
+        404:
+          description: No process implementation with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete an already existing process implementation.
+      description: |
+        Delete an already existing process implementation. Authentification is required.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the process implementation
+          required: true
+          type: integer
+          minimum: 0
+      security:
+        - basic: []
+        - api_key: []
+      tags:
+        - OperationVersions
+      responses:
+        204:
+          description: Process implementation correctly deleted
+        404:
+          description: No process implementation with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+
+
+  /users/:
+    get:
+      summary: Get the list of all the users.
+      description: |
+        Get the list of all the users. No authentification is required.
+      tags:
+        - Users
+      responses:
+        200:
+          description: An array of users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /users/{id}/:
+    get:
+      summary: Get a single user.
+      description: |
+        Get a single user. No authentification is required.
+      parameters:
+        - name: id
+          in: path
+          description: Id of the user
+          required: true
+          type: integer
+          minimum: 0
+      tags:
+        - Users
+      responses:
+        200:
+          description: The user matching the given Id
+          schema:
+            $ref: '#/definitions/User'
+        404:
+          description: No user with the given Id
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /api-token-auth/:
+    post:
+      summary: Get the authentification token for a user.
+      description: |
+        Get the authentification token for a user by providing his username and password. No authentification is required; however the credentials of the user are part of the request.
+      parameters:
+        - name: data
+          in: body
+          description: User credentials
+          required: true
+          schema:
+            $ref: '#/definitions/Credentials'
+      tags:
+        - Users
+      responses:
+        200:
+          description: The authentification token of the user
+          schema:
+            $ref: '#/definitions/TokenResp'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Operations:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique ID of the process definition
+      name:
+        type: string
+        description: Name given to the process definition
+      logo_url:
+        type: string
+        description: URL to a logo image
+      author:
+        type: integer
+        description: Unique ID of the user who created the process definition
+      description:
+        type: string
+        description: Textual description of the semantics of the process
+      string_parameters:
+        type: string
+        description: JSON-formatted array (treated as a set) giving the list of string parameters of the process
+      file_parameters:
+        type: string
+        description: JSON-formatted array (treated as a set) giving the list of file parameters of the process
+      implementations:
+        type: array
+        items:
+          type: integer
+        description: List of IDs of the corresponding process implementations
+  OperationsPost:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        description: Name given to the process definition
+      logo_url:
+        type: string
+        description: URL to a logo image
+      description:
+        type: string
+        description: Textual description of the semantics of the process
+      string_parameters:
+        type: string
+        description: JSON-formatted array (treated as a set) giving the list of string parameters of the process
+      file_parameters:
+        type: string
+        description: JSON-formatted array (treated as a set) giving the list of file parameters of the process
+  OperationsPatch:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name given to the process definition
+      logo_url:
+        type: string
+        description: URL to a logo image
+      description:
+        type: string
+        description: Textual description of the semantics of the process
+      string_parameters:
+        type: string
+        description: JSON-formatted array (treated as a set) giving the list of string parameters of the process
+      file_parameters:
+        type: string
+        description: JSON-formatted array (treated as a set) giving the list of file parameters of the process
+  OperationVersion:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique ID of the process implementation
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      script:
+        type: string
+        description: Script to execute to run the process on the cluster
+      output_type:
+        type: string
+        description: type of output (e.g. file, stream)
+      output_parameters:
+        type: string
+        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
+  OperationVersionPost:
+    type: object
+    required:
+      - name
+      - appliance
+      - script
+      - process_definition
+      - output_type
+    properties:
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      script:
+        type: string
+        description: Script to execute to run the process on the cluster
+      output_type:
+        type: string
+        description: type of output (e.g. file, stream)
+      output_parameters:
+        type: string
+        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
+  OperationVersionPatch:
+    type: object
+    properties:
+      name:
+        description: Name given to the process implementation
+        type: string
+      appliance:
+        type: string
+        description: Name of the appliance on which the process implementation must be run
+      process_definition:
+        type: integer
+        description: Id of the process definition linked with this new implementation
+      cwd:
+        type: string
+        description: Working directory to be in when ruing the process implementation
+      script:
+        type: string
+        description: Script to execute to run the process on the cluster
+      output_type:
+        type: string
+        description: type of output (e.g. file, stream)
+      output_parameters:
+        type: string
+        description: JSON-formatted dictionary containing parameters regarding the output (depending on the output type)
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific user
+      username:
+        type: string
+        description: Name given to the user.
+      operation_definitions:
+        type: array
+        description: Array of IDs of all the process descriptions created by the user
+        items:
+          type: integer
+      definition:
+        type: string
+        description: JSON-formatted string containing all the information required to start the process
+  Error:
+    type: object
+    properties:
+      detail:
+        type: string
+  TokenResp:
+    type: object
+    properties:
+      token:
+        type: string
+  Credentials:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      username:
+        description: Username of the user
+        type: string
+      password:
+        description: Password of the user
+        type: string
