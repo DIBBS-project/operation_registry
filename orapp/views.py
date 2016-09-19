@@ -1,11 +1,15 @@
 from django.contrib.auth.models import User
 from orapp.models import Operation, OperationVersion
 from orapp.serializers import OperationSerializer, OperationVersionSerializer, UserSerializer
+from common_dibbs.clients.ar_client.apis.appliances_api import AppliancesApi
 from rest_framework import viewsets, permissions, status
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
+from settings import Settings
+from common_dibbs.misc import configure_basic_authentication
 
 
 @api_view(['GET'])
@@ -71,9 +75,13 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
 
     # Override to set the user using the credentials provided to perform the request + check the appliance.
     def create(self, request, *args, **kwargs):
-        from ar_client.apis.appliances_api import AppliancesApi
         try:
-            AppliancesApi().appliances_name_get(request.data[u'appliance'])
+            # Create a client for Appliances
+            appliance_client = AppliancesApi()
+            appliance_client.api_client.host = "%s" % (Settings().appliance_registry_url,)
+            configure_basic_authentication(appliance_client, "admin", "pass")
+
+            appliance_client.appliances_name_get(request.data[u'appliance'])
         except:
             return Response('{"error": "Cannot retrieve appliance %s"}' % request.data[u'appliance'],
                             status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
