@@ -1,15 +1,21 @@
-from django.contrib.auth.models import User
-from orapp.models import Operation, OperationVersion
-from orapp.serializers import OperationSerializer, OperationVersionSerializer, UserSerializer
-from common_dibbs.clients.ar_client.apis.appliances_api import AppliancesApi
-from rest_framework import viewsets, permissions, status
+# coding: utf-8
+from __future__ import absolute_import, print_function
 
+import json
+
+from django.conf import settings
+from django.contrib.auth.models import User
+from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from settings import Settings
+from common_dibbs.clients.ar_client.apis.appliances_api import AppliancesApi
 from common_dibbs.misc import configure_basic_authentication
+
+from .models import Operation, OperationVersion
+from .process_record import variables_set, files_set
+from .serializers import OperationSerializer, OperationVersionSerializer, UserSerializer
 
 
 @api_view(['GET'])
@@ -78,7 +84,7 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
         try:
             # Create a client for Appliances
             appliance_client = AppliancesApi()
-            appliance_client.api_client.host = "%s" % (Settings().appliance_registry_url,)
+            appliance_client.api_client.host = settings.DIBBS['urls']['ar']
             configure_basic_authentication(appliance_client, "admin", "pass")
 
             appliance_client.appliances_name_get(request.data[u'appliance'])
@@ -99,8 +105,6 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         # Check that there are no extra variables (that all are declared in the process definition)
-        from process_record import variables_set, files_set
-        import json
         str_set = variables_set(data2[u'script'],
                                 data2[u'output_type'],
                                 json.loads(data2[u'output_parameters']))

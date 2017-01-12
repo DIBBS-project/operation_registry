@@ -1,8 +1,14 @@
+# coding: utf-8
+from __future__ import absolute_import, print_function
+
+from django.conf import settings
 from django.shortcuts import render
-import orapp.models as models
+
 from common_dibbs.clients.ar_client.apis.appliances_api import AppliancesApi
-from settings import Settings
 from common_dibbs.misc import configure_basic_authentication
+
+import orapp.models as models
+
 
 def create_processdef(request):
     # appliances = AppliancesApi().appliances_get()
@@ -12,7 +18,7 @@ def create_processdef(request):
 def create_processimpl(request):
     # Create a client for Appliances
     appliance_client = AppliancesApi()
-    appliance_client.api_client.host = "%s" % (Settings().appliance_registry_url,)
+    appliance_client.api_client.host = settings.DIBBS['urls']['ar']
     configure_basic_authentication(appliance_client, "admin", "pass")
 
     appliances = appliance_client.appliances_get()
