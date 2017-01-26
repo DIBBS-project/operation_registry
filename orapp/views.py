@@ -11,27 +11,28 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from common_dibbs.clients.ar_client.apis.appliances_api import AppliancesApi
-from common_dibbs.misc import configure_basic_authentication
+from common_dibbs.django import relay_swagger
+
 
 from .models import Operation, OperationVersion
 from .process_record import variables_set, files_set
-from .serializers import OperationSerializer, OperationVersionSerializer, UserSerializer
+from .serializers import OperationSerializer, OperationVersionSerializer#, UserSerializer
 
 
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'users': reverse('user-list', request=request, format=format),
+        # 'users': reverse('user-list', request=request, format=format),
         'processdefs': reverse('processdef-list', request=request, format=format)
     })
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    This viewset automatically provides `list` and `detail` actions.
-    """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# class UserViewSet(viewsets.ReadOnlyModelViewSet):
+#     """
+#     This viewset automatically provides `list` and `detail` actions.
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 
 class ProcessDefViewSet(viewsets.ModelViewSet):
@@ -51,7 +52,7 @@ class ProcessDefViewSet(viewsets.ModelViewSet):
         data2 = {}
         for key in request.data:
             data2[key] = request.data[key]
-        data2[u'author'] = request.user.id
+        data2[u'author'] = request.user.username
         data2[u'implementations'] = {}
 
         if data2[u'string_parameters'] == u'':
@@ -85,7 +86,7 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
             # Create a client for Appliances
             appliance_client = AppliancesApi()
             appliance_client.api_client.host = settings.DIBBS['urls']['ar']
-            configure_basic_authentication(appliance_client, "admin", "pass")
+            relay_swagger(appliance_client, request)
 
             appliance_client.appliances_name_get(request.data[u'appliance'])
         except:
@@ -96,7 +97,7 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
         for key in request.data:
             data2[key] = request.data[key]
 
-        data2[u'author'] = request.user.id
+        data2[u'author'] = request.user.username
 
         if data2[u'output_parameters'] == u'':
             data2[u'output_parameters'] = u'{}'

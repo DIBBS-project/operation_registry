@@ -5,7 +5,8 @@ from django.conf import settings
 from django.shortcuts import render
 
 from common_dibbs.clients.ar_client.apis.appliances_api import AppliancesApi
-from common_dibbs.misc import configure_basic_authentication
+from common_dibbs.django import relay_swagger
+
 
 import orapp.models as models
 
@@ -19,7 +20,7 @@ def create_processimpl(request):
     # Create a client for Appliances
     appliance_client = AppliancesApi()
     appliance_client.api_client.host = settings.DIBBS['urls']['ar']
-    configure_basic_authentication(appliance_client, "admin", "pass")
+    relay_swagger(appliance_client, request)
 
     appliances = appliance_client.appliances_get()
     processdef_list = models.Operation.objects.all()

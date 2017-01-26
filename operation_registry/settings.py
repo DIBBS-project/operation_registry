@@ -43,18 +43,21 @@ INSTALLED_APPS = (
     'demo',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'common_dibbs.django.CASUserBridgeMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'common_dibbs.CentralAuthenticationMiddleware',
-    'common_dibbs.DibbsUserMiddleware',
-)
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
+    'common_dibbs.django.InterserviceMiddleware',
+    'common_dibbs.django.GlobalRequestMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.RemoteUserBackend',
+]
 
 ROOT_URLCONF = 'operation_registry.urls'
 
@@ -111,8 +114,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        'common_dibbs.django.DRFAuthentication',
     )
 }
 
