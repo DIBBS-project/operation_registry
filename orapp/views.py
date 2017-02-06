@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from common_dibbs.clients import ApiException
 from common_dibbs.clients.ar_client.apis.appliances_api import AppliancesApi
 from common_dibbs.django import relay_swagger
 
@@ -89,7 +90,7 @@ class ProcessImplViewSet(viewsets.ModelViewSet):
             relay_swagger(appliance_client, request)
 
             appliance_client.appliances_name_get(request.data[u'appliance'])
-        except:
+        except ApiException:
             return Response('{"error": "Cannot retrieve appliance %s"}' % request.data[u'appliance'],
                             status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
 

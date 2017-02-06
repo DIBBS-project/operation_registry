@@ -24,6 +24,7 @@ SECRET_KEY = '54id!n*d6t6((&p6x)!$t#!2uri!!iww(&koj9l97h5!q$$gw='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = []
 
@@ -49,9 +50,9 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'common_dibbs.django.CASUserBridgeMiddleware',
+    'common_dibbs.django.InterserviceMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.RemoteUserMiddleware',
-    'common_dibbs.django.InterserviceMiddleware',
     'common_dibbs.django.GlobalRequestMiddleware',
 ]
 
@@ -147,4 +148,5 @@ DIBBS = {
         # 'oma': "http://127.0.0.1:8011",
         # 'rma': "http://127.0.0.1:8012",
     },
+    'shared_secret': b'SECRET',
 }
